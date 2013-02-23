@@ -6,7 +6,7 @@ use Config::Simple;
 use File::Spec::Functions qw/catfile/;
 
 sub load_config {
-    my $config = Config::Simple->new( catfile( $ENV{HOME}, '.prove_soundrc' ) );
+    my $config = Config::Simple->new( catfile( $ENV{HOME}, '.with-soundrc' ) );
     return $config->param('SUCCESS'), $config->param('FAILURE');
 }
 
