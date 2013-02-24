@@ -1,12 +1,12 @@
 Build.PL
 Changes
 lib/App/WithSound.pm
+LICENSE
 MANIFEST			This list of files
+META.json
+META.yml
 README
 t/00.load.t
 with-sound
 xt/00.pod.t
 xt/99.perlcritic.t
-LICENSE
-META.yml
-META.json

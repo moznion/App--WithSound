@@ -5,6 +5,7 @@ use Module::Build;
 my $builder = Module::Build->new(
     name               => 'App-WithSound',
     module_name        => 'App::WithSound',
+    script_files       => ['with-sound'],
     license            => 'perl',
     dist_author        => 'moznion <moznion@gmail.com>',
     dist_version_from  => 'lib/App/WithSound.pm',
