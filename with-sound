@@ -19,16 +19,22 @@ sub load_config {
 }
 
 sub play_mp3 {
-    my ($mp3_file) = @_;
+    my ( $mp3_file, $status ) = @_;
 
-    my $pid = fork;
-    die "fork failed." unless defined $pid;
+    if ( -f $mp3_file ) {
+        my $pid = fork;
+        die "fork failed." unless defined $pid;
 
-    if ( $pid == 0 ) {
-        my $player = Audio::Play::MPG123->new;
-        $player->load($mp3_file);
-        $player->poll(1) until $player->state == 0;
-        exit;
+        if ( $pid == 0 ) {
+            my $player = Audio::Play::MPG123->new;
+            $player->load($mp3_file);
+            $player->poll(1) until $player->state == 0;
+            exit;
+        }
+    }
+    else {
+        warn "[WARNING] Sound file is not specified when $status. "
+          . "Please check your .with-soundrc file.\n";
     }
 }
 
@@ -43,11 +49,11 @@ my $retval = system(@ARGV);
 if ( $retval == 0 ) {
 
     # success
-    play_mp3($success_sound);
+    play_mp3( $success_sound, 'success' );
 }
 else {
     # failure
-    play_mp3($failure_sound);
+    play_mp3( $failure_sound, 'failure' );
 }
 
 $retval = 1 if $retval > 255;
