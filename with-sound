@@ -33,12 +33,14 @@ sub play_mp3 {
         }
     }
     else {
-        warn "[WARNING] Sound file is not specified when $status. "
+        warn "[WARNING] Sound file is not specified for when $status. "
           . "Please check your .with-soundrc file.\n";
     }
 }
 
-die "[ERROR] Please specify command line parameters.\n" unless @ARGV;
+unless (@ARGV) {
+    die 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
+}
 
 my ( $success_sound, $failure_sound ) = load_config;
 $success_sound = glob $success_sound;
