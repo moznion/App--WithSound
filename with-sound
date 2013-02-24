@@ -26,7 +26,7 @@ sub play_mp3 {
 
     if ( $pid == 0 ) {
         my $player = Audio::Play::MPG123->new;
-        $player->load( glob $mp3_file );
+        $player->load($mp3_file);
         $player->poll(1) until $player->state == 0;
         exit;
     }
