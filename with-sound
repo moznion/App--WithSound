@@ -6,7 +6,15 @@ use Config::Simple;
 use File::Spec::Functions qw/catfile/;
 
 sub load_config {
-    my $config = Config::Simple->new( catfile( $ENV{HOME}, '.with-soundrc' ) );
+    my $rc_file_name = '.with-soundrc';
+    my $rc_file_location = catfile( $ENV{HOME}, $rc_file_name );
+
+    # Not exists rc file on home directory.
+    unless ( -f $rc_file_location ) {
+        die "! Please put '$rc_file_name' file on your home directory\n";
+    }
+
+    my $config = Config::Simple->new($rc_file_location);
     return $config->param('SUCCESS'), $config->param('FAILURE');
 }
 
