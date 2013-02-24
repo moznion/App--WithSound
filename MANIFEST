@@ -6,6 +6,7 @@ MANIFEST			This list of files
 META.json
 META.yml
 README
+README.pod
 t/00.load.t
 with-sound
 xt/00.pod.t
