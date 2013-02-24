@@ -64,7 +64,7 @@ exit($retval);
 
 __END__
 
-=coding utf8
+=encoding utf8
 
 =head1 NAME
 
