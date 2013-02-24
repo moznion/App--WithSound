@@ -24,16 +24,19 @@ sub play_mp3 {
     }
 }
 
+die "! Please specify command line parameters.\n" unless @ARGV;
+
 my ( $success_sound, $failure_sound ) = load_config;
 
 my $retval = system(@ARGV);
 
-if ($retval == 0) {
+if ( $retval == 0 ) {
+
     # success
     play_mp3( glob $success_sound );
 }
 else {
-    # error
+    # failure
     play_mp3( glob $failure_sound );
 }
 
