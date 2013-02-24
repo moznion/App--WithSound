@@ -20,6 +20,7 @@ sub play_mp3 {
         my $player = Audio::Play::MPG123->new;
         $player->load( glob $mp3_file );
         $player->poll(1) until $player->state == 0;
+        exit;
     }
 }
 
@@ -36,5 +37,6 @@ else {
     play_mp3( glob $failure_sound );
 }
 
+$retval = 1 if $retval > 255;
 exit($retval);
 __END__
