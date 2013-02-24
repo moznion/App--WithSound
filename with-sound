@@ -1,0 +1,40 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Audio::Play::MPG123;
+use Config::Simple;
+use File::Spec::Functions qw/catfile/;
+
+sub load_config {
+    my $config = Config::Simple->new( catfile( $ENV{HOME}, '.with-soundrc' ) );
+    return $config->param('SUCCESS'), $config->param('FAILURE');
+}
+
+sub play_mp3 {
+    my ($mp3_file) = @_;
+
+    my $pid = fork;
+    die "fork failed." unless defined $pid;
+
+    if ( $pid == 0 ) {
+        my $player = Audio::Play::MPG123->new;
+        $player->load( glob $mp3_file );
+        $player->poll(1) until $player->state == 0;
+    }
+}
+
+my ( $success_sound, $failure_sound ) = load_config;
+
+my $retval = system(@ARGV);
+
+if ($retval == 0) {
+    # success
+    play_mp3( glob $success_sound );
+}
+else {
+    # error
+    play_mp3( glob $failure_sound );
+}
+
+exit($retval);
+__END__
