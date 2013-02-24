@@ -7,6 +7,7 @@ META.json
 META.yml
 README
 README.pod
+samples/.with-soundrc
 t/00.load.t
 with-sound
 xt/00.pod.t
