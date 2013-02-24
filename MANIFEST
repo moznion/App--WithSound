@@ -7,3 +7,6 @@ t/00.load.t
 with-sound
 xt/00.pod.t
 xt/99.perlcritic.t
+LICENSE
+META.yml
+META.json
