@@ -11,7 +11,7 @@ sub load_config {
 
     # Not exists rc file on home directory.
     unless ( -f $rc_file_location ) {
-        die "! Please put '$rc_file_name' file on your home directory\n";
+        die "[ERROR] Please put '$rc_file_name' file on your home directory\n";
     }
 
     my $config = Config::Simple->new($rc_file_location);
@@ -32,7 +32,7 @@ sub play_mp3 {
     }
 }
 
-die "! Please specify command line parameters.\n" unless @ARGV;
+die "[ERROR] Please specify command line parameters.\n" unless @ARGV;
 
 my ( $success_sound, $failure_sound ) = load_config;
 
