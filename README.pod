@@ -33,7 +33,7 @@ This resource file specifies the path to sound files. Like so:
 
 And this module requires mpg123 so please install it before use this application.
 
-L<<http://www.mpg123.de/index.shtml>>
+L<http://www.mpg123.de/index.shtml>
 
 
 =head1 DEPENDENCIES
