@@ -1,0 +1,9 @@
+Build.PL
+Changes
+lib/App/WithSound.pm
+MANIFEST			This list of files
+README
+t/00.load.t
+t/997.pod.t
+t/998.pod-coverage.t
+t/999.perlcritic.t
