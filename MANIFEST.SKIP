@@ -1,0 +1,11 @@
+.git/
+.DS_Store
+^.gitignore$
+^.shipit$
+^MYMETA\.yml$
+^MYMETA\.json$
+\.bak$
+_build/
+^Build$
+blib/
+^MANIFEST\.SKIP

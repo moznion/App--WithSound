@@ -3,15 +3,30 @@ use warnings;
 use Module::Build;
 
 my $builder = Module::Build->new(
-    module_name         => 'App::WithSound',
-    license             => 'artistic2',
-    dist_author         => 'moznion <moznion@gmail.com>',
-    dist_version_from   => 'lib/App/WithSound.pm',
-    requires => {
-        'Test::More' => 0,
-        'version'    => 0,
+    name               => 'App-WithSound',
+    module_name        => 'App::WithSound',
+    license            => 'perl',
+    dist_author        => 'moznion <moznion@gmail.com>',
+    dist_version_from  => 'lib/App/WithSound.pm',
+    build_requires     => { 'Test::More' => '0.98', },
+    configure_requires => { 'Module::Build' => '0.40' },
+    requires           => {
+        perl                    => '5.008001',
+        'Audio::Play::MPG123'   => '0.63',
+        'Config::Simple'        => '4.58',
+        'File::Spec::Functions' => '3.40',
     },
-    add_to_cleanup      => [ 'App-WithSound-*' ],
+    no_index   => { 'directory' => ['inc'] },
+    meta_merge => {
+        'resources' => {
+            'license'    => 'http://dev.perl.org/licenses/',
+            'repository' => 'git://github.com/moznion/App--WithSound.git',
+        },
+    },
+    test_files => ( -d '.git' || $ENV{RELEASE_TESTING} ) ? 't/ xt/' : 't/',
+    recursive_test_files => 1,
+    add_to_cleanup       => ['App-WithSound-*'],
+    create_license       => 1,
 );
 
 $builder->create_build_script();
