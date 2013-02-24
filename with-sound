@@ -35,17 +35,19 @@ sub play_mp3 {
 die "[ERROR] Please specify command line parameters.\n" unless @ARGV;
 
 my ( $success_sound, $failure_sound ) = load_config;
+$success_sound = glob $success_sound;
+$failure_sound = glob $failure_sound;
 
 my $retval = system(@ARGV);
 
 if ( $retval == 0 ) {
 
     # success
-    play_mp3( glob $success_sound );
+    play_mp3($success_sound);
 }
 else {
     # failure
-    play_mp3( glob $failure_sound );
+    play_mp3($failure_sound);
 }
 
 $retval = 1 if $retval > 255;
