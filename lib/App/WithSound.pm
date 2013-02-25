@@ -4,6 +4,94 @@ use warnings;
 use strict;
 our $VERSION = '1.0.0';
 
+use Audio::Play::MPG123;
+use Config::Simple;
+
+sub new {
+    my ($class, $config_file_path, $env) = @_;
+    bless {
+        config_file_path => $config_file_path,
+        env => $env,
+        success_sound_path => undef,
+        failure_sound_path => undef,
+    }, $class;
+}
+sub run {
+    my ($self, @argv) = @_;
+    unless (@argv) {
+        die 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
+    }
+
+    my $retval = system(@ARGV);
+    $retval = 1 if $retval > 255;
+
+    $self->_play_sound($retval);
+    return $retval;
+}
+sub _load_sound_paths_from_env {
+    my ($self) = @_;
+    if ($self->{env}->{WITH_SOUND_SUCCESS}) {
+        $self->{success_sound_path} = $self->{env}->{WITH_SOUND_SUCCESS};
+    }
+    if ($self->{env}->{WITH_SOUND_FAILURE}) {
+        $self->{failure_sound_path} = $self->{env}->{WITH_SOUND_FAILURE};
+    }
+    $self;
+}
+sub _load_sound_paths_from_config {
+    my ($self) = @_;
+    # Not exists config file.
+    unless ( -f $self->{config_file_path} ) {
+        die "[ERROR] Please put config file in '@[$self->config_file_path]'\n";
+    }
+    my $config = Config::Simple->new($self->{config_file_path});
+    $self->{success_sound_path} = $config->param('SUCCESS');
+    $self->{failure_sound_path} = $config->param('FAILURE');
+    $self;
+}
+sub _load_sound_paths {
+    my ($self) = @_;
+    $self->_load_sound_paths_from_config;
+
+    # load from env after config so environment variables are prior to config
+    $self->_load_sound_paths_from_env;
+}
+sub _play_mp3 {
+    my ( $self, $mp3_file_path, $status ) = @_;
+
+    # not exists mp3 file
+    unless (-f $mp3_file_path) {
+        warn "[WARNING] Sound file not found for $status. : $mp3_file_path";
+        return;
+    }
+
+    my $pid = fork;
+    die "fork failed." unless defined $pid;
+
+    if ( $pid == 0 ) {
+        my $player = Audio::Play::MPG123->new;
+        $player->load(glob $mp3_file_path);
+        $player->poll(1) until $player->state == 0;
+        exit;
+    }
+    $self;
+}
+sub _play_sound {
+    my ($self, $command_retval) = @_;
+
+    $self->_load_sound_paths;
+    if ( $command_retval == 0 ) {
+        # success
+        $self->_play_mp3( $self->{success_sound_path}, 'success' );
+    }
+    else {
+        # failure
+        $self->_play_mp3( $self->{failure_sound_path}, 'failure' );
+    }
+    $self;
+}
+
+
 1;
 __END__
 

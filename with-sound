@@ -2,78 +2,12 @@
 use strict;
 use warnings;
 use 5.008001;
-use Audio::Play::MPG123;
-use Config::Simple;
+
+use App::WithSound;
 use File::Spec::Functions qw/catfile/;
 
-sub load_sound_paths_from_env {
-    my $success_sound = undef;
-    my $failure_sound = undef;
-    if ($ENV{WITH_SOUND_SUCCESS}) {
-        $success_sound = $ENV{WITH_SOUND_SUCCESS};
-    }
-    if ($ENV{WITH_SOUND_FAILURE}) {
-        $failure_sound = $ENV{WITH_SOUND_FAILURE};
-    }
-    return $success_sound, $failure_sound;
-}
-sub load_sound_paths_from_config {
-    my $rc_file_name = '.with-soundrc';
-    my $rc_file_location = catfile( $ENV{HOME}, $rc_file_name );
-
-    # Not exists rc file on home directory.
-    unless ( -f $rc_file_location ) {
-        die "[ERROR] Please put '$rc_file_name' file on your home directory\n";
-    }
-
-    my $config = Config::Simple->new($rc_file_location);
-    return $config->param('SUCCESS'), $config->param('FAILURE');
-}
-sub load_sound_paths {
-    my ($success_sound_from_env, $failure_sound_from_env) = load_sound_paths_from_env;
-    my ($success_sound_from_conf, $failure_sound_from_conf) = load_sound_paths_from_config;
-    return ($success_sound_from_env || $success_sound_from_conf, $failure_sound_from_env || $failure_sound_from_conf);
-}
-sub play_mp3 {
-    my ( $mp3_file, $status ) = @_;
-
-    if ( -f $mp3_file ) {
-        my $pid = fork;
-        die "fork failed." unless defined $pid;
-
-        if ( $pid == 0 ) {
-            my $player = Audio::Play::MPG123->new;
-            $player->load($mp3_file);
-            $player->poll(1) until $player->state == 0;
-            exit;
-        }
-    }
-    else {
-        warn "[WARNING] Sound file is not specified for when $status. "
-          . "Please check your .with-soundrc file.\n";
-    }
-}
-
-unless (@ARGV) {
-    die 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
-}
-my ( $success_sound, $failure_sound ) = load_sound_paths;
-$success_sound = glob $success_sound;
-$failure_sound = glob $failure_sound;
-
-my $retval = system(@ARGV);
-
-if ( $retval == 0 ) {
-
-    # success
-    play_mp3( $success_sound, 'success' );
-}
-else {
-    # failure
-    play_mp3( $failure_sound, 'failure' );
-}
-
-$retval = 1 if $retval > 255;
+my $rc_file_path = catfile( $ENV{HOME}, '.with-soundrc');
+my $retval = App::WithSound->new($rc_file_path, \%ENV )->run(@ARGV);
 exit($retval);
 
 __END__
