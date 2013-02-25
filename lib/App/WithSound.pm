@@ -56,6 +56,12 @@ sub _load_sound_paths {
     # load from env after config so environment variables are prior to config
     $self->_load_sound_paths_from_env;
 }
+sub _play_mp3_in_child {
+    my ($self, $mp3_file_path) = @_;
+    my $player = Audio::Play::MPG123->new;
+    $player->load(glob $mp3_file_path);
+    $player->poll(1) until $player->state == 0;
+}
 sub _play_mp3 {
     my ( $self, $mp3_file_path, $status ) = @_;
 
@@ -69,9 +75,8 @@ sub _play_mp3 {
     die "fork failed." unless defined $pid;
 
     if ( $pid == 0 ) {
-        my $player = Audio::Play::MPG123->new;
-        $player->load(glob $mp3_file_path);
-        $player->poll(1) until $player->state == 0;
+        # child process
+        $self->_play_mp3_in_child($mp3_file_path);
         exit;
     }
     $self;
