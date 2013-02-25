@@ -55,11 +55,15 @@ sub _load_sound_paths {
 
     # load from env after config so environment variables are prior to config
     $self->_load_sound_paths_from_env;
+
+    $self->{success_sound_path} = glob $self->{success_sound_path};
+    $self->{failure_sound_path} = glob $self->{failure_sound_path};
+    $self;
 }
 sub _play_mp3_in_child {
     my ($self, $mp3_file_path) = @_;
     my $player = Audio::Play::MPG123->new;
-    $player->load(glob $mp3_file_path);
+    $player->load($mp3_file_path);
     $player->poll(1) until $player->state == 0;
 }
 sub _play_mp3 {
