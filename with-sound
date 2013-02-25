@@ -6,7 +6,18 @@ use Audio::Play::MPG123;
 use Config::Simple;
 use File::Spec::Functions qw/catfile/;
 
-sub load_config {
+sub load_sound_paths_from_env {
+    my $success_sound = undef;
+    my $failure_sound = undef;
+    if ($ENV{WITH_SOUND_SUCCESS}) {
+        $success_sound = $ENV{WITH_SOUND_SUCCESS};
+    }
+    if ($ENV{WITH_SOUND_FAILURE}) {
+        $failure_sound = $ENV{WITH_SOUND_FAILURE};
+    }
+    return $success_sound, $failure_sound;
+}
+sub load_sound_paths_from_config {
     my $rc_file_name = '.with-soundrc';
     my $rc_file_location = catfile( $ENV{HOME}, $rc_file_name );
 
@@ -18,7 +29,11 @@ sub load_config {
     my $config = Config::Simple->new($rc_file_location);
     return $config->param('SUCCESS'), $config->param('FAILURE');
 }
-
+sub load_sound_paths {
+    my ($success_sound_from_env, $failure_sound_from_env) = load_sound_paths_from_env;
+    my ($success_sound_from_conf, $failure_sound_from_conf) = load_sound_paths_from_config;
+    return ($success_sound_from_env || $success_sound_from_conf, $failure_sound_from_env || $failure_sound_from_conf);
+}
 sub play_mp3 {
     my ( $mp3_file, $status ) = @_;
 
@@ -42,8 +57,7 @@ sub play_mp3 {
 unless (@ARGV) {
     die 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
 }
-
-my ( $success_sound, $failure_sound ) = load_config;
+my ( $success_sound, $failure_sound ) = load_sound_paths;
 $success_sound = glob $success_sound;
 $failure_sound = glob $failure_sound;
 
