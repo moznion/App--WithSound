@@ -31,7 +31,12 @@ This resource file specifies the path to sound files. Like so:
     SUCCESS: ~/Music/success.mp3
     FAILURE: ~/Music/failure.mp3
 
-And this module requires mpg123 so please install it before use this application.
+You also can specify the paths by environment variables $ENV{'WITH_SOUND_SUCCESS'} and $ENV{'WITH_SOUND_FAILURE'}.
+
+If the file paths are set by both environment variables and a configuration file,
+the environment variables are prior to the configuration file.
+
+This module requires mpg123 so please install it before use this application.
 
 L<http://www.mpg123.de/index.shtml>
 
@@ -91,4 +96,3 @@ RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
 FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
 SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
-
