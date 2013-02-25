@@ -36,7 +36,7 @@ You also can specify the paths by environment variables $ENV{'WITH_SOUND_SUCCESS
 If the file paths are set by both environment variables and a configuration file,
 the environment variables are prior to the configuration file.
 
-This module requires mpg123 so please install it before use this application.
+This module also requires mpg123 so please install it before use this application.
 
 L<http://www.mpg123.de/index.shtml>
 
