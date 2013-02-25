@@ -8,16 +8,17 @@ use Audio::Play::MPG123;
 use Config::Simple;
 
 sub new {
-    my ($class, $config_file_path, $env) = @_;
+    my ( $class, $config_file_path, $env ) = @_;
     bless {
-        config_file_path => $config_file_path,
-        env => $env,
+        config_file_path   => $config_file_path,
+        env                => $env,
         success_sound_path => undef,
         failure_sound_path => undef,
     }, $class;
 }
+
 sub run {
-    my ($self, @argv) = @_;
+    my ( $self, @argv ) = @_;
     unless (@argv) {
         die 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
     }
@@ -28,27 +29,31 @@ sub run {
     $self->_play_sound($retval);
     return $retval;
 }
+
 sub _load_sound_paths_from_env {
     my ($self) = @_;
-    if ($self->{env}->{WITH_SOUND_SUCCESS}) {
+    if ( $self->{env}->{WITH_SOUND_SUCCESS} ) {
         $self->{success_sound_path} = $self->{env}->{WITH_SOUND_SUCCESS};
     }
-    if ($self->{env}->{WITH_SOUND_FAILURE}) {
+    if ( $self->{env}->{WITH_SOUND_FAILURE} ) {
         $self->{failure_sound_path} = $self->{env}->{WITH_SOUND_FAILURE};
     }
     $self;
 }
+
 sub _load_sound_paths_from_config {
     my ($self) = @_;
+
     # Not exists config file.
     unless ( -f $self->{config_file_path} ) {
         die "[ERROR] Please put config file in '@[$self->config_file_path]'\n";
     }
-    my $config = Config::Simple->new($self->{config_file_path});
+    my $config = Config::Simple->new( $self->{config_file_path} );
     $self->{success_sound_path} = $config->param('SUCCESS');
     $self->{failure_sound_path} = $config->param('FAILURE');
     $self;
 }
+
 sub _load_sound_paths {
     my ($self) = @_;
     $self->_load_sound_paths_from_config;
@@ -60,17 +65,19 @@ sub _load_sound_paths {
     $self->{failure_sound_path} = glob $self->{failure_sound_path};
     $self;
 }
+
 sub _play_mp3_in_child {
-    my ($self, $mp3_file_path) = @_;
+    my ( $self, $mp3_file_path ) = @_;
     my $player = Audio::Play::MPG123->new;
     $player->load($mp3_file_path);
     $player->poll(1) until $player->state == 0;
 }
+
 sub _play_mp3 {
     my ( $self, $mp3_file_path, $status ) = @_;
 
     # not exists mp3 file
-    unless (-f $mp3_file_path) {
+    unless ( -f $mp3_file_path ) {
         warn "[WARNING] Sound file not found for $status. : $mp3_file_path";
         return;
     }
@@ -79,17 +86,20 @@ sub _play_mp3 {
     die "fork failed." unless defined $pid;
 
     if ( $pid == 0 ) {
+
         # child process
         $self->_play_mp3_in_child($mp3_file_path);
         exit;
     }
     $self;
 }
+
 sub _play_sound {
-    my ($self, $command_retval) = @_;
+    my ( $self, $command_retval ) = @_;
 
     $self->_load_sound_paths;
     if ( $command_retval == 0 ) {
+
         # success
         $self->_play_mp3( $self->{success_sound_path}, 'success' );
     }
@@ -99,7 +109,6 @@ sub _play_sound {
     }
     $self;
 }
-
 
 1;
 __END__
