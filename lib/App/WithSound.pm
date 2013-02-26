@@ -48,7 +48,7 @@ sub _load_sound_paths_from_config {
 
     # Not exists config file.
     unless ( -f $self->{config_file_path} ) {
-        carp "[ERROR] Please put config file in '$self->{config_file_path}'\n";
+        carp "[WARNNING] Please put config file in '$self->{config_file_path}'\n";
         return;
     }
     my $config = Config::Simple->new( $self->{config_file_path} );
