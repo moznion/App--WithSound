@@ -25,7 +25,7 @@ sub run {
         croak 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
     }
 
-    my $retval = system(@ARGV);
+    my $retval = system(@argv);
     $retval = 1 if $retval > 255;
 
     $self->_play_sound($retval);
