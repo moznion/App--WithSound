@@ -80,7 +80,7 @@ sub _play_mp3 {
 
     # not exists mp3 file
     unless ( -f $mp3_file_path ) {
-        warn "[WARNING] Sound file not found for $status. : $mp3_file_path";
+        carp "[WARNING] Sound file not found for $status. : $mp3_file_path";
         return;
     }
 
