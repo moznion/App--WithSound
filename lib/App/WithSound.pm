@@ -35,10 +35,10 @@ sub run {
 sub _load_sound_paths_from_env {
     my ($self) = @_;
     if ( $self->{env}->{WITH_SOUND_SUCCESS} ) {
-        $self->{success_sound_path} = $self->{env}->{WITH_SOUND_SUCCESS};
+        $self->{success_sound_path} = expand_filename($self->{env}->{WITH_SOUND_SUCCESS});
     }
     if ( $self->{env}->{WITH_SOUND_FAILURE} ) {
-        $self->{failure_sound_path} = $self->{env}->{WITH_SOUND_FAILURE};
+        $self->{failure_sound_path} = expand_filename($self->{env}->{WITH_SOUND_FAILURE});
     }
     $self;
 }
@@ -48,11 +48,12 @@ sub _load_sound_paths_from_config {
 
     # Not exists config file.
     unless ( -f $self->{config_file_path} ) {
-        die "[ERROR] Please put config file in '@[$self->config_file_path]'\n";
+        carp "[ERROR] Please put config file in '@[$self->config_file_path]'\n";
+        return;
     }
     my $config = Config::Simple->new( $self->{config_file_path} );
-    $self->{success_sound_path} = $config->param('SUCCESS');
-    $self->{failure_sound_path} = $config->param('FAILURE');
+    $self->{success_sound_path} = expand_filename($config->param('SUCCESS'));
+    $self->{failure_sound_path} = expand_filename($config->param('FAILURE'));
     $self;
 }
 
@@ -62,9 +63,6 @@ sub _load_sound_paths {
 
     # load from env after config so environment variables are prior to config
     $self->_load_sound_paths_from_env;
-
-    $self->{success_sound_path} = expand_filename($self->{success_sound_path});
-    $self->{failure_sound_path} = expand_filename($self->{failure_sound_path});
     $self;
 }
 
@@ -77,6 +75,8 @@ sub _play_mp3_in_child {
 
 sub _play_mp3 {
     my ( $self, $mp3_file_path, $status ) = @_;
+
+    return unless $mp3_file_path;
 
     # not exists mp3 file
     unless ( -f $mp3_file_path ) {
