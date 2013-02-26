@@ -4,6 +4,7 @@ use warnings;
 use strict;
 our $VERSION = '1.0.0';
 
+use Carp;
 use Audio::Play::MPG123;
 use Config::Simple;
 
@@ -20,7 +21,7 @@ sub new {
 sub run {
     my ( $self, @argv ) = @_;
     unless (@argv) {
-        die 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
+        croak 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
     }
 
     my $retval = system(@ARGV);
@@ -61,8 +62,8 @@ sub _load_sound_paths {
     # load from env after config so environment variables are prior to config
     $self->_load_sound_paths_from_env;
 
-    $self->{success_sound_path} = glob $self->{success_sound_path};
-    $self->{failure_sound_path} = glob $self->{failure_sound_path};
+    $self->{success_sound_path} = $self->_expand_path($self->{success_sound_path});
+    $self->{failure_sound_path} = $self->_expand_path($self->{failure_sound_path});
     $self;
 }
 
@@ -108,6 +109,13 @@ sub _play_sound {
         $self->_play_mp3( $self->{failure_sound_path}, 'failure' );
     }
     $self;
+}
+
+sub _expand_path {
+    my ( $self, $path ) = @_;
+
+    $path =~ s!^~/!$ENV{HOME}/!;
+    return $path;
 }
 
 1;
