@@ -62,8 +62,8 @@ sub _load_sound_paths {
     # load from env after config so environment variables are prior to config
     $self->_load_sound_paths_from_env;
 
-    $self->{success_sound_path} = glob $self->{success_sound_path};
-    $self->{failure_sound_path} = glob $self->{failure_sound_path};
+    $self->{success_sound_path} = $self->_expand_path($self->{success_sound_path});
+    $self->{failure_sound_path} = $self->_expand_path($self->{failure_sound_path});
     $self;
 }
 
