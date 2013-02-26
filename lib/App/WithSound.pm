@@ -7,6 +7,7 @@ our $VERSION = '1.0.0';
 use Carp;
 use Audio::Play::MPG123;
 use Config::Simple;
+use File::Path::Expand;
 
 sub new {
     my ( $class, $config_file_path, $env ) = @_;
@@ -62,8 +63,8 @@ sub _load_sound_paths {
     # load from env after config so environment variables are prior to config
     $self->_load_sound_paths_from_env;
 
-    $self->{success_sound_path} = glob $self->{success_sound_path};
-    $self->{failure_sound_path} = glob $self->{failure_sound_path};
+    $self->{success_sound_path} = expand_filename($self->{success_sound_path});
+    $self->{failure_sound_path} = expand_filename($self->{failure_sound_path});
     $self;
 }
 
