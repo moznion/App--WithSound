@@ -10,7 +10,7 @@ use App::WithSound;
 
 BEGIN {
     use Test::More tests => 2;
-    use Test::Exception;
+    use Test::Warn;
 }
 
 my ( $app, $rc_file );
@@ -26,7 +26,8 @@ subtest 'Load configurations from the config file.' => sub {
 subtest 'The config file does not exist' => sub {
     $rc_file = catfile( $FindBin::Bin, 'resource', '.dummyrc' );
     $app = App::WithSound->new( $rc_file, \%ENV );
-    dies_ok { $app->_load_sound_paths_from_config };
+    warning_like { $app->_load_sound_paths_from_config }
+    qr/\[WARNNING\] Please put config file in '$rc_file'/;
 };
 
 done_testing;
