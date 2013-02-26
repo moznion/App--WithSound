@@ -63,6 +63,8 @@ Config::Simple (version 4.58 or later)
 
 File::Spec::Functions (version 3.40 or later)
 
+File::Path::Expand (version 1.02 or later)
+
 
 =head1 BUGS AND LIMITATIONS
 
