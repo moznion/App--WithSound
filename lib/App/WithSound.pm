@@ -111,6 +111,13 @@ sub _play_sound {
     $self;
 }
 
+sub _expand_path {
+    my ( $self, $path ) = @_;
+
+    $path =~ s!^~/!$ENV{HOME}/!;
+    return $path;
+}
+
 1;
 __END__
 
