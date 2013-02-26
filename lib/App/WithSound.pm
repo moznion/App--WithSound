@@ -4,6 +4,7 @@ use warnings;
 use strict;
 our $VERSION = '1.0.0';
 
+use Carp;
 use Audio::Play::MPG123;
 use Config::Simple;
 
@@ -20,7 +21,7 @@ sub new {
 sub run {
     my ( $self, @argv ) = @_;
     unless (@argv) {
-        die 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
+        croak 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
     }
 
     my $retval = system(@ARGV);
