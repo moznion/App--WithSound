@@ -39,7 +39,7 @@ subtest 'Playback sound rightly in status:success' => sub {
     $app->_play_sound(0);
 };
 
-subtest 'Playback sound rightly in status:success' => sub {
+subtest 'Playback sound rightly in status:failure' => sub {
     $mock->mock(
         "_play_mp3",
         sub {
