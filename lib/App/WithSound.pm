@@ -127,12 +127,17 @@ __END__
 
 =head1 NAME
 
-App::WithSound - Execute commands with sound
+App::WithSound - Utility module for with-sound
 
 
 =head1 VERSION
 
 This document describes App::WithSound version 1.0.0
+
+
+=head1 DESCRIPTION
+
+This module contains utilities for L<<with-sound>>.
 
 
 =head1 AUTHOR
