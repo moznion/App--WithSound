@@ -139,7 +139,7 @@ This document describes App::WithSound version 1.0.0
 
 moznion  C<< <moznion@gmail.com> >>
 
-Shinpei Maruyma C<< shinpeim[at]gmail.com> >>
+Shinpei Maruyama C<< shinpeim[at]gmail.com> >>
 
 
 =head1 LICENCE AND COPYRIGHT
