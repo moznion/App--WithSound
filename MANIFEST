@@ -6,7 +6,6 @@ MANIFEST			This list of files
 META.json
 META.yml
 README
-README.pod
 samples/.with-soundrc
 t/00.load.t
 t/01.load_sound_paths_from_env.t
