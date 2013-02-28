@@ -9,7 +9,7 @@ use File::Spec::Functions qw/catfile/;
 use App::WithSound;
 
 BEGIN {
-    use Test::More;
+    use Test::More tests => 2;
 }
 
 $ENV{WITH_SOUND_SUCCESS} =
