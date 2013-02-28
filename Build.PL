@@ -3,15 +3,16 @@ use warnings;
 use Module::Build;
 
 my $builder = Module::Build->new(
-    name               => 'App-WithSound',
-    module_name        => 'App::WithSound',
-    script_files       => ['with-sound'],
-    license            => 'perl',
-    dist_author        => 'moznion <moznion@gmail.com>',
-    dist_version_from  => 'lib/App/WithSound.pm',
-    build_requires     => {
-        'Test::More' => '0.98',
-        'Test::MockObject::Extends' => '1.20120301'
+    name              => 'App-WithSound',
+    module_name       => 'App::WithSound',
+    script_files      => ['with-sound'],
+    license           => 'perl',
+    dist_author       => 'moznion <moznion@gmail.com>',
+    dist_version_from => 'lib/App/WithSound.pm',
+    build_requires    => {
+        'Test::More'                => '0.98',
+        'Test::MockObject::Extends' => '1.20120301',
+        'Test::Warn'                => '0.24',
     },
     configure_requires => { 'Module::Build' => '0.40' },
     requires           => {
@@ -19,6 +20,7 @@ my $builder = Module::Build->new(
         'Audio::Play::MPG123'   => '0.63',
         'Config::Simple'        => '4.58',
         'File::Spec::Functions' => '3.40',
+        'File::Path::Expand'    => '1.02',
     },
     no_index   => { 'directory' => ['inc'] },
     meta_merge => {
