@@ -9,3 +9,4 @@ _build/
 ^Build$
 blib/
 ^MANIFEST\.SKIP
+App-WithSound-*
