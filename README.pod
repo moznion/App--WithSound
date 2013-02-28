@@ -14,6 +14,9 @@ This document describes with-sound version 1.0.0
 
     $ with-sound [command] ([argument(s)])
 
+    # e.g.
+    #    $ with-sound prove t/
+
 
 =head1 DESCRIPTION
 
@@ -50,6 +53,10 @@ Config::Simple (version 4.58 or later)
 File::Spec::Functions (version 3.40 or later)
 
 File::Path::Expand (version 1.02 or later)
+
+Test::Warn (version 0.24 or later)
+
+Test::MockObject::Extends (version 1.20120301 or later)
 
 
 =head1 BUGS AND LIMITATIONS
