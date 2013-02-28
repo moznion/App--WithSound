@@ -8,9 +8,7 @@ use File::Spec::Functions qw/catfile/;
 
 use App::WithSound;
 
-BEGIN {
-    use Test::More tests => 2;
-}
+use Test::More tests => 2;
 
 $ENV{WITH_SOUND_SUCCESS} =
   catfile( $FindBin::Bin, 'resource', 'dummy_success.mp3' );

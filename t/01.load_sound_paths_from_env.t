@@ -6,9 +6,7 @@ use utf8;
 
 use App::WithSound;
 
-BEGIN {
-    use Test::More tests => 2;
-}
+use Test::More tests => 2;
 
 my $app;
 

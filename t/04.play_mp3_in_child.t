@@ -9,10 +9,8 @@ use Audio::Play::MPG123;
 
 use App::WithSound;
 
-BEGIN {
-    use Test::More tests => 1;
-    use Test::MockObject::Extends;
-}
+use Test::More tests => 1;
+use Test::MockObject::Extends;
 
 subtest 'Playback mp3 rightly' => sub {
     my $app = App::WithSound->new( undef, \%ENV );
