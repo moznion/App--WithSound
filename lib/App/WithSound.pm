@@ -25,7 +25,7 @@ sub run {
         croak 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
     }
 
-    my $retval = system(@ARGV);
+    my $retval = system(@argv);
     $retval = 1 if $retval > 255;
 
     $self->_play_sound($retval);
@@ -66,9 +66,17 @@ sub _load_sound_paths {
     $self;
 }
 
+sub _sound_player {
+    my ( $self, $player ) = @_;
+    if ($player) {
+        $self->{sound_player} = $player;
+    }
+    $self->{sound_player} || Audio::Play::MPG123->new;
+}
+
 sub _play_mp3_in_child {
     my ( $self, $mp3_file_path ) = @_;
-    my $player = Audio::Play::MPG123->new;
+    my $player = $self->_sound_player;
     $player->load($mp3_file_path);
     $player->poll(1) until $player->state == 0;
 }
