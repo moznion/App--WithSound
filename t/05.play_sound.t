@@ -5,13 +5,11 @@ use warnings;
 use utf8;
 use FindBin;
 use File::Spec::Functions qw/catfile/;
-use Test::MockObject::Extends;
 
 use App::WithSound;
 
-BEGIN {
-    use Test::More tests => 2;
-}
+use Test::More tests => 2;
+use Test::MockObject::Extends;
 
 my $success_sound_path =
   catfile( $FindBin::Bin, 'resource', 'dummy_success.mp3' );

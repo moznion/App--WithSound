@@ -8,9 +8,7 @@ use File::Spec::Functions qw/catfile/;
 
 use App::WithSound;
 
-BEGIN {
-    use Test::More tests => 1;
-}
+use Test::More tests => 1;
 
 # TODO Do you have an idea about more effective method to test?
 subtest 'Playback mp3 rightly' => sub {

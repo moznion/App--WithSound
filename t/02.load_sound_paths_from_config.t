@@ -8,10 +8,8 @@ use File::Spec::Functions qw/catfile/;
 
 use App::WithSound;
 
-BEGIN {
-    use Test::More tests => 2;
-    use Test::Warn;
-}
+use Test::More tests => 2;
+use Test::Warn;
 
 my ( $app, $rc_file );
 

@@ -8,9 +8,7 @@ use File::Spec::Functions qw/catfile/;
 
 use App::WithSound;
 
-BEGIN {
-    use Test::More tests => 2;
-}
+use Test::More tests => 2;
 
 my $app;
 my $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
