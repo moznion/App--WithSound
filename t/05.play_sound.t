@@ -10,7 +10,7 @@ use Test::MockObject::Extends;
 use App::WithSound;
 
 BEGIN {
-    use Test::More;
+    use Test::More tests => 2;
 }
 
 my $success_sound_path =
