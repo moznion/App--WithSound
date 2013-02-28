@@ -9,7 +9,10 @@ my $builder = Module::Build->new(
     license            => 'perl',
     dist_author        => 'moznion <moznion@gmail.com>',
     dist_version_from  => 'lib/App/WithSound.pm',
-    build_requires     => { 'Test::More' => '0.98', },
+    build_requires     => {
+        'Test::More' => '0.98',
+        'Test::MockObject::Extends' => '1.20120301'
+    },
     configure_requires => { 'Module::Build' => '0.40' },
     requires           => {
         perl                    => '5.008001',
