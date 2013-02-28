@@ -2,7 +2,7 @@ NAME
     with-sound - Command executor with sound
 
 VERSION
-    This document describes with-sound version 1.0.0
+    This document describes with-sound version 1.0.1
 
 SYNOPSIS
         $ with-sound [command] ([argument(s)])
