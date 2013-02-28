@@ -127,7 +127,7 @@ __END__
 
 =head1 NAME
 
-App::WithSound - Utility module for with-sound
+App::WithSound - Execute commands with sound
 
 
 =head1 VERSION
