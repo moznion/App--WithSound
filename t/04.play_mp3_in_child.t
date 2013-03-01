@@ -33,7 +33,6 @@ subtest 'Playback mp3 rightly' => sub {
     $app->_sound_player($player);
 
     is $app->_play_mp3_in_child($mp3), 1;    # 1: success
-    $player->stop_mpg123;
 };
 
 done_testing;
