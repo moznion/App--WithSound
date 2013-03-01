@@ -45,6 +45,7 @@ sub can_run {
     my $cmd = shift;
     require ExtUtils::MakeMaker;
     if ( $^O eq 'cygwin' ) {
+
         # MM->maybe_command is fixed in 6.51_01 for Cygwin.
         ExtUtils::MakeMaker->import(6.52);
     }
@@ -63,7 +64,7 @@ sub can_run {
 
 # Module::Install::External
 sub requires_external_bin {
-    my ($bin, $version) = @_;
+    my ( $bin, $version ) = @_;
     if ($version) {
         croak 'requires_external_bin does not support versions yet';
     }
@@ -73,12 +74,12 @@ sub requires_external_bin {
     my $found_bin = can_run($bin);
     if ($found_bin) {
         print " found at $found_bin.\n";
-    } else {
+    }
+    else {
         print " missing.\n";
         print "Unresolvable missing external dependency.\n";
         print "Please install '$bin' seperately and try again.\n";
-        print {*STDERR}
-            "NA: Unable to build distribution on this platform.\n";
+        print {*STDERR} "NA: Unable to build distribution on this platform.\n";
         exit 0;
     }
 
