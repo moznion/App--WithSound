@@ -79,6 +79,7 @@ sub _play_mp3_in_child {
     my $player = $self->_sound_player;
     $player->load($mp3_file_path);
     $player->poll(1) until $player->state == 0;
+    $player->stop_mpg123;
 }
 
 sub _play_mp3 {
