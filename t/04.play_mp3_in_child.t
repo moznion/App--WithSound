@@ -5,7 +5,6 @@ use warnings;
 use utf8;
 use FindBin;
 use File::Spec::Functions qw/catfile/;
-use Audio::Play::MPG123;
 
 use App::WithSound;
 
@@ -13,26 +12,40 @@ use Test::More tests => 1;
 use Test::MockObject::Extends;
 
 subtest 'Playback mp3 rightly' => sub {
-    my $app = App::WithSound->new( undef, \%ENV );
 
-    my $player      = Audio::Play::MPG123->new;
-    my $player_mock = Test::MockObject::Extends->new($player);
+    my $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
+    my $expected_success_mp3 = catfile( $FindBin::Bin, 'resource', 'dummy_success.mp3' );
+    my $expected_failure_mp3 = catfile( $FindBin::Bin, 'resource', 'dummy_failure.mp3' );
+    my $env = +{
+        WITH_SOUND_SUCCESS => $expected_success_mp3,
+        WITH_SOUND_FAILURE => $expected_failure_mp3,
+    };
+    my $app = App::WithSound->new($rc_file, $env);
 
-    my $mp3 =
-      catfile( $FindBin::Bin, 'resource', 'dummy_success.mp3' );
-    $player_mock->mock(
-        "load",
+    my $app_mock = Test::MockObject::Extends->new($app);
+    $app_mock->mock(
+        '_detect_sound_play_command',
+        sub { '/path/to/mpg123' }
+    );
+    $app_mock->mock(
+        '_play_mp3_in_child',
         sub {
-            my ( $self, $mp3_given ) = @_;
-            is $mp3_given, $mp3, "Playback '$mp3_given' rightly.";
-            $self->{state} = 0;
-            return $self->{state};
+            my ($self, $sound_play_command, $mp3_file_path) = @_;
+            is $sound_play_command, '/path/to/mpg123', 'the sound play command is eq to given';
+            is $mp3_file_path, $expected_success_mp3, 'the mp3 file path is given';
         }
     );
+    $app_mock->_play_sound(0);
 
-    $app->_sound_player($player);
-
-    is $app->_play_mp3_in_child($mp3), 1;    # 1: success
+    $app_mock->mock(
+        '_play_mp3_in_child',
+        sub {
+            my ($self, $sound_play_command, $mp3_file_path) = @_;
+            is $sound_play_command, '/path/to/mpg123', 'the sound play command is eq to given';
+            is $mp3_file_path, $expected_failure_mp3, 'the mp3 file path is given';
+        }
+    );
+    $app_mock->_play_sound(1);
 };
 
 done_testing;

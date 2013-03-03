@@ -5,9 +5,11 @@ use strict;
 our $VERSION = '1.0.1';
 
 use Carp;
-use Audio::Play::MPG123;
 use Config::Simple;
 use File::Path::Expand;
+use File::Which;
+use File::Spec;
+use IPC::Open3;
 
 sub new {
     my ( $class, $config_file_path, $env ) = @_;
@@ -30,6 +32,14 @@ sub run {
 
     $self->_play_sound($retval);
     return $retval;
+}
+
+sub _detect_sound_play_command {
+    my $player;
+    $player ||= which('mpg123');
+    $player ||= which('mpg321');
+    $player ||= which('afplay');
+    return $player;
 }
 
 sub _load_sound_paths_from_env {
@@ -66,20 +76,18 @@ sub _load_sound_paths {
     $self;
 }
 
-sub _sound_player {
-    my ( $self, $player ) = @_;
-    if ($player) {
-        $self->{sound_player} = $player;
-    }
-    $self->{sound_player} || Audio::Play::MPG123->new;
-}
-
 sub _play_mp3_in_child {
-    my ( $self, $mp3_file_path ) = @_;
-    my $player = $self->_sound_player;
-    $player->load($mp3_file_path);
-    $player->poll(1) until $player->state == 0;
-    $player->stop_mpg123;
+    my ( $self, $play_command, $mp3_file_path ) = @_;
+
+    my $pid = fork;
+    die "fork failed." unless defined $pid;
+    if ( $pid == 0 ) {
+
+        my $devnull = File::Spec->devnull;
+        open( STDOUT, ">$devnull" );
+        open( STDERR, ">$devnull" );
+        exec $play_command, $mp3_file_path;
+    }
 }
 
 sub _play_mp3 {
@@ -93,16 +101,11 @@ sub _play_mp3 {
         return;
     }
 
-    my $pid = fork;
-    die "fork failed." unless defined $pid;
+    my $play_command = $self->_detect_sound_play_command;
+    carp "[WARNING] No sound player is installed. please install mpg123 or mpg321"
+      unless $play_command;
 
-    if ( $pid == 0 ) {
-
-        # child process
-        $self->_play_mp3_in_child($mp3_file_path);
-        exit;
-    }
-    $self;
+    $self->_play_mp3_in_child( $play_command, $mp3_file_path );
 }
 
 sub _play_sound {
