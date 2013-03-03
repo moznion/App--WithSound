@@ -8,14 +8,19 @@ use File::Spec::Functions qw/catfile/;
 
 use App::WithSound;
 
-use Test::More tests => 2;
+use Test::More;
+use Test::MockObject::Extends;
 
 $ENV{WITH_SOUND_SUCCESS} =
   catfile( $FindBin::Bin, 'resource', 'dummy_success.mp3' );
 $ENV{WITH_SOUND_FAILURE} =
   catfile( $FindBin::Bin, 'resource', 'dummy_failure.mp3' );
 my $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
+
+# mock _play_mp3_in_child so this test script doesn't play sound really.
 my $app = App::WithSound->new( $rc_file, \%ENV );
+my $mock = Test::MockObject::Extends->new( $app );
+$mock->mock( '_play_mp3_in_child', sub{ 0 } );
 
 subtest 'Run success' => sub {
     my @args = ( 'perl', '-e', ';' );
