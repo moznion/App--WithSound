@@ -24,6 +24,7 @@ my $builder = Module::Build->new(
         'Test::More'                => '0.98',
         'Test::MockObject::Extends' => '1.20120301',
         'Test::Warn'                => '0.24',
+        'FindBin'                   => 0,
     },
     configure_requires => { 'Module::Build' => '0.40' },
     requires           => {
@@ -32,7 +33,8 @@ my $builder = Module::Build->new(
         'Config::Simple'        => '4.58',
         'File::Spec::Functions' => '3.40',
         'File::Path::Expand'    => '1.02',
-        'IPC::Open3'            => 0
+        'IPC::Open3'            => 0,
+        'Carp'                  => 0,
     },
     no_index   => { 'directory' => ['inc'] },
     meta_merge => {
