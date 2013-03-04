@@ -20,7 +20,7 @@ my $builder = Module::Build->new(
     configure_requires => { 'Module::Build' => '0.40' },
     requires           => {
         perl                    => '5.008001',
-        'Audio::Play::MPG123'   => '0.63',
+        'File::Which'           => '0.05',
         'Config::Simple'        => '4.58',
         'File::Spec::Functions' => '3.40',
         'File::Path::Expand'    => '1.02',
