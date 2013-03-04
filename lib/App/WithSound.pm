@@ -45,10 +45,12 @@ sub _detect_sound_play_command {
 sub _load_sound_paths_from_env {
     my ($self) = @_;
     if ( $self->{env}->{WITH_SOUND_SUCCESS} ) {
-        $self->{success_sound_path} = expand_filename($self->{env}->{WITH_SOUND_SUCCESS});
+        $self->{success_sound_path} =
+          expand_filename( $self->{env}->{WITH_SOUND_SUCCESS} );
     }
     if ( $self->{env}->{WITH_SOUND_FAILURE} ) {
-        $self->{failure_sound_path} = expand_filename($self->{env}->{WITH_SOUND_FAILURE});
+        $self->{failure_sound_path} =
+          expand_filename( $self->{env}->{WITH_SOUND_FAILURE} );
     }
     $self;
 }
@@ -58,12 +60,13 @@ sub _load_sound_paths_from_config {
 
     # Not exists config file.
     unless ( -f $self->{config_file_path} ) {
-        carp "[WARNNING] Please put config file in '$self->{config_file_path}'\n";
+        carp
+          "[WARNNING] Please put config file in '$self->{config_file_path}'\n";
         return;
     }
     my $config = Config::Simple->new( $self->{config_file_path} );
-    $self->{success_sound_path} = expand_filename($config->param('SUCCESS'));
-    $self->{failure_sound_path} = expand_filename($config->param('FAILURE'));
+    $self->{success_sound_path} = expand_filename( $config->param('SUCCESS') );
+    $self->{failure_sound_path} = expand_filename( $config->param('FAILURE') );
     $self;
 }
 
@@ -86,12 +89,8 @@ sub _play_mp3_in_child {
     }
     eval {
         my $wtr;
-        my $pid = open3(
-            $wtr,
-            '>&' . fileno($devnull),
-            0,
-            $play_command, $mp3_file_path,
-        );
+        my $pid = open3( $wtr, '>&' . fileno($devnull),
+            0, $play_command, $mp3_file_path, );
         close $wtr;
     };
     carp "[WARNING] Couldn't exec $play_command in sound process: $@" if $@;
@@ -109,7 +108,8 @@ sub _play_mp3 {
     }
 
     my $play_command = $self->_detect_sound_play_command;
-    carp "[WARNING] No sound player is installed. please install mpg123 or mpg321"
+    carp
+      "[WARNING] No sound player is installed. please install mpg123 or mpg321"
       unless $play_command;
 
     $self->_play_mp3_in_child( $play_command, $mp3_file_path );
