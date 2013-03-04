@@ -8,7 +8,7 @@ use Carp;
 use Config::Simple;
 use File::Path::Expand;
 use File::Which;
-use File::Spec;
+use File::Spec::Functions qw/devnull/;
 use IPC::Open3;
 
 sub new {
@@ -80,7 +80,7 @@ sub _play_mp3_in_child {
     my ( $self, $play_command, $mp3_file_path ) = @_;
 
     my $devnull;
-    unless ( open( $devnull, '>', File::Spec->devnull ) ) {
+    unless ( open( $devnull, '>', devnull ) ) {
         carp "[WARNING] Couldn't open devnull : $!";
         return;
     }
