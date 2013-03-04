@@ -32,10 +32,14 @@ CONFIGURATION AND ENVIRONMENT
     configuration file, the environment variables are prior to the
     configuration file.
 
-    This module also requires mpg123 so please install it before use this
-    application.
+    This module also requires "mpg123" or "mpg321" or "afplay" so please install it before use this
+    application ("afplay" is preinstalled if you are using Mac OS X).
+
+    Please refer to the following:
 
     http://www.mpg123.de/index.shtml
+
+    http://mpg321.sourceforge.net/
 
 DEPENDENCIES
     Config::Simple (version 4.58 or later)
@@ -43,6 +47,8 @@ DEPENDENCIES
     File::Spec::Functions (version 3.40 or later)
 
     File::Path::Expand (version 1.02 or later)
+
+    File::Which (version 1.09 or later)
 
     Test::Warn (version 0.24 or later)
 
@@ -59,6 +65,9 @@ AUTHOR
     moznion `<moznion@gmail.com>'
 
     Shinpei Maruyama `<shinpeim[at]gmail.com>'
+
+CONTRIBUTOR
+    Syohei YOSHIDA `<syohex[at]gmail.com>'
 
 LICENCE AND COPYRIGHT
     Copyright (c) 2013, moznion `<moznion@gmail.com>'. All rights reserved.

@@ -157,6 +157,8 @@ Config::Simple (version 4.58 or later)
 
 File::Path::Expand (version 1.02 or later)
 
+File::Which (version 1.09 or later)
+
 Test::Warn (version 0.24 or later)
 
 Test::MockObject::Extends (version 1.20120301 or later)
@@ -167,6 +169,11 @@ Test::MockObject::Extends (version 1.20120301 or later)
 moznion  C<< <moznion@gmail.com> >>
 
 Shinpei Maruyama C<< shinpeim[at]gmail.com> >>
+
+
+=head1 CONTRIBUTOR
+
+Syohei YOSHIDA C<< syohex[at]gmail.com >>
 
 
 =head1 LICENCE AND COPYRIGHT
