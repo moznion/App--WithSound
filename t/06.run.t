@@ -18,12 +18,12 @@ my $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
 my $app = App::WithSound->new( $rc_file, \%ENV );
 
 subtest 'Run success' => sub {
-    my @args = ( 'perl', '-e', ';' );
+    my @args = ( 'perl', '-e', 'exit(0);' );
     is $app->run(@args), 0;
 };
 
 subtest 'Run failure' => sub {
-    my @args = ( 'perl', '-e', 'die;' );
+    my @args = ( 'perl', '-e', 'exit(1);' );
     is $app->run(@args), 1;
 };
 
