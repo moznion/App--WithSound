@@ -3,7 +3,15 @@ use warnings;
 use Module::Build;
 use Carp;
 
-requires_external_bin('mpg123');
+unless ( requires_external_bin('mpg123')
+    || requires_external_bin('mpg321')
+    || requires_external_bin('afplay') )
+{
+    print "! Unresolvable missing external dependency.\n";
+    print "! Please install 'mpg123' or 'mpg321' seperately and try again.\n";
+    print {*STDERR} "! NA: Unable to build distribution on this platform.\n";
+    exit 0;
+}
 
 my $builder = Module::Build->new(
     name              => 'App-WithSound',
@@ -75,14 +83,8 @@ sub requires_external_bin {
     my $found_bin = can_run($bin);
     if ($found_bin) {
         print " found at $found_bin.\n";
+        return 1;
     }
-    else {
-        print " missing.\n";
-        print "Unresolvable missing external dependency.\n";
-        print "Please install '$bin' seperately and try again.\n";
-        print {*STDERR} "NA: Unable to build distribution on this platform.\n";
-        exit 0;
-    }
-
-    return 1;
+    print " missing.\n";
+    return 0;
 } ## end sub requires_external_bin
