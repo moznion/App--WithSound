@@ -60,8 +60,6 @@ L<http://www.mpg123.de/index.shtml>
 
 =head1 DEPENDENCIES
 
-Audio::Play::MPG123 (version 0.63 or later)
-
 Config::Simple (version 4.58 or later)
 
 File::Spec::Functions (version 3.40 or later)

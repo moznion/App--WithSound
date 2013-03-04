@@ -153,8 +153,6 @@ This module contains utilities for L<<with-sound>>.
 
 =head1 DEPENDENCIES
 
-Audio::Play::MPG123 (version 0.63 or later)
-
 Config::Simple (version 4.58 or later)
 
 File::Path::Expand (version 1.02 or later)
