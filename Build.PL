@@ -24,6 +24,7 @@ my $builder = Module::Build->new(
         'Config::Simple'        => '4.58',
         'File::Spec::Functions' => '3.40',
         'File::Path::Expand'    => '1.02',
+        'IPC::Open3'            => 0
     },
     no_index   => { 'directory' => ['inc'] },
     meta_merge => {
