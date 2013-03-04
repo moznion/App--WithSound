@@ -79,15 +79,21 @@ sub _load_sound_paths {
 sub _play_mp3_in_child {
     my ( $self, $play_command, $mp3_file_path ) = @_;
 
-    my $devnull;
-    unless ( open( $devnull, '>', File::Spec->devnull ) ) {
+    my $devnull_w;
+    unless ( open( $devnull_w, '>', File::Spec->devnull ) ) {
+        carp "[WARNING] Couldn't open devnull : $!";
+        return;
+    }
+    my $devnull_r;
+    unless ( open( $devnull_r, '<', File::Spec->devnull ) ) {
         carp "[WARNING] Couldn't open devnull : $!";
         return;
     }
     eval {
+        my $wtr;
         my $pid = open3(
-            '>&' . fileno($devnull),
-            '>&' . fileno($devnull),
+            '<&' . fileno($devnull_r),
+            '>&' . fileno($devnull_w),
             0,
             $play_command, $mp3_file_path,
         );
