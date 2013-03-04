@@ -79,15 +79,20 @@ sub _load_sound_paths {
 sub _play_mp3_in_child {
     my ( $self, $play_command, $mp3_file_path ) = @_;
 
-    my $pid = fork;
-    die "fork failed." unless defined $pid;
-    if ( $pid == 0 ) {
-
-        my $devnull = File::Spec->devnull;
-        open( STDOUT, ">$devnull" );
-        open( STDERR, ">$devnull" );
-        exec $play_command, $mp3_file_path;
+    my $devnull;
+    unless ( open( $devnull, '>', File::Spec->devnull ) ) {
+        carp "[WARNING] Couldn't open devnull : $!";
+        return;
     }
+    eval {
+        my $pid = open3(
+            '>&' . fileno($devnull),
+            '>&' . fileno($devnull),
+            0,
+            $play_command, $mp3_file_path,
+        );
+    };
+    carp "[WARNING] Couldn't exec $play_command in sound process: $@" if $@;
 }
 
 sub _play_mp3 {
