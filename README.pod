@@ -39,7 +39,7 @@ You also can specify the paths by environment variables $ENV{'WITH_SOUND_SUCCESS
 If the file paths are set by both environment variables and a configuration file,
 the environment variables are prior to the configuration file.
 
-This module also requires "mpg123" or "mpg321" or "afplay" so please install it before use this application ("afplay" is preinstalled if you are using Mac OS X).
+This module also requires "mpg123" or "mpg321" or "afplay" so please install it before use this application ("afplay" is pre-installed if you are using Mac OS X).
 
 Please refer to the following:
 

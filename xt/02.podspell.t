@@ -22,7 +22,11 @@ __DATA__
 moznion
 maruyama
 shinpei
+syohei
+yoshida
 MERCHANTABILITY
 MP
 mpg
 soundrc
+afplay
+pre
