@@ -89,7 +89,7 @@ sub _play_mp3_in_child {
     }
     eval {
         my $wtr;
-        my $pid = open3( $wtr, '>&' . fileno($devnull),
+        open3( $wtr, '>&' . fileno($devnull),
             0, $play_command, $mp3_file_path, );
         close $wtr;
     };
