@@ -22,6 +22,8 @@ $ENV{WITH_SOUND_FAILURE} = $failure_sound_path;
 my $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
 
 my $app = App::WithSound->new( $rc_file, \%ENV );
+$app->_init;
+
 my $mock = Test::MockObject::Extends->new($app);
 
 subtest 'Playback sound rightly in status:success' => sub {

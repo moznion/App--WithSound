@@ -15,6 +15,8 @@ $ENV{WITH_SOUND_SUCCESS} =
   catfile( $FindBin::Bin, 'resource', 'dummy_success.mp3' );
 $ENV{WITH_SOUND_FAILURE} =
   catfile( $FindBin::Bin, 'resource', 'dummy_failure.mp3' );
+$ENV{WITH_SOUND_RUNNING} =
+  catfile( $FindBin::Bin, 'resource', 'dummy_running.mp3' );
 my $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
 
 # mock _play_mp3_in_child so this test script doesn't play sound really.
