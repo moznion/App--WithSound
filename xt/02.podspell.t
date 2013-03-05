@@ -20,10 +20,10 @@ all_pod_files_spelling_ok(@targets);
 # done_testing;
 __DATA__
 moznion
-maruyama
-shinpei
-syohei
-yoshida
+Maruyama
+Shinpei
+Syohei
+YOSHIDA
 MERCHANTABILITY
 MP
 mpg
