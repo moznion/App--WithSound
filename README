@@ -15,7 +15,7 @@ DESCRIPTION
     the MP3 file only).
 
     If exit-status of the command is success, it playbacks the sound of
-    success. Else, it plays sound of failure.
+    success. Else, it plays sound of failure. And this application also can play the sound during executing the command.
 
 CONFIGURATION AND ENVIRONMENT
     App::WithSound requires a resource file as '.with-soundrc' on your home
@@ -24,13 +24,17 @@ CONFIGURATION AND ENVIRONMENT
 
         SUCCESS: ~/Music/success.mp3
         FAILURE: ~/Music/failure.mp3
+        RUNNING: ~/Music/running.mp3
 
-    You also can specify the paths by environment variables
-    $ENV{'WITH_SOUND_SUCCESS'} and $ENV{'WITH_SOUND_FAILURE'}.
+    You also can specify the paths by environment variables $ENV{'WITH_SOUND_SUCCESS'}, $ENV{'WITH_SOUND_FAILURE'}
+    and $ENV{'WITH_SOUND_RUNNING'}.
 
     If the file paths are set by both environment variables and a
     configuration file, the environment variables are prior to the
     configuration file.
+
+    These sound file settings are optional. You do not have to fill the all of settings.
+    with-sound will ignore playing sound if the sound file is not specified.
 
     This module also requires "mpg123" or "mpg321" or "afplay" so please install it before use this
     application ("afplay" is pre-installed if you are using Mac OS X).
