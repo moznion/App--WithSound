@@ -25,8 +25,13 @@ subtest 'Playback mp3 rightly' => sub {
     my $app_mock = Test::MockObject::Extends->new($app);
     $app_mock->mock(
         '_detect_sound_play_command',
-        sub { '/path/to/mpg123' }
+        sub {
+            my ($self) = @_;
+            $self->{sound_player} = '/path/to/mpg123';
+            return $self;
+        }
     );
+    $app_mock->_init;
     $app_mock->mock(
         '_play_mp3_in_child',
         sub {

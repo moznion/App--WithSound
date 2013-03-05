@@ -11,6 +11,8 @@ use File::Which;
 use File::Spec::Functions qw/devnull/;
 use IPC::Open3;
 
+our $SIGTERM = 15;
+
 sub new {
     my ( $class, $config_file_path, $env ) = @_;
     bless {
@@ -18,6 +20,8 @@ sub new {
         env                => $env,
         success_sound_path => undef,
         failure_sound_path => undef,
+        running_sound_path => undef,
+        sound_player       => undef,
     }, $class;
 }
 
@@ -27,19 +31,44 @@ sub run {
         croak 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
     }
 
-    my $retval = system(@argv);
+    $self->_init;
+
+    my $retval = $self->_execute_command(@argv);
     $retval = 1 if $retval > 255;
 
     $self->_play_sound($retval);
     return $retval;
 }
 
+sub _init {
+    my ($self) = @_;
+
+    $self->_load_sound_paths;
+    $self->_detect_sound_play_command;
+
+    return $self;
+}
+
+sub _execute_command {
+    my ( $self, @argv ) = @_;
+
+    my $pid    = $self->_play_sound;
+    my $retval = system(@argv);
+    kill( $SIGTERM, $pid ) if $pid;
+
+    return $retval;
+}
+
 sub _detect_sound_play_command {
+    my ($self) = @_;
+
     my $player;
     $player ||= which('mpg123');
     $player ||= which('mpg321');
     $player ||= which('afplay');
-    return $player;
+
+    $self->{sound_player} = $player;
+    return $self;
 }
 
 sub _load_sound_paths_from_env {
@@ -51,6 +80,10 @@ sub _load_sound_paths_from_env {
     if ( $self->{env}->{WITH_SOUND_FAILURE} ) {
         $self->{failure_sound_path} =
           expand_filename( $self->{env}->{WITH_SOUND_FAILURE} );
+    }
+    if ( $self->{env}->{WITH_SOUND_RUNNING} ) {
+        $self->{running_sound_path} =
+          expand_filename( $self->{env}->{WITH_SOUND_RUNNING} );
     }
     $self;
 }
@@ -67,6 +100,7 @@ sub _load_sound_paths_from_config {
     my $config = Config::Simple->new( $self->{config_file_path} );
     $self->{success_sound_path} = expand_filename( $config->param('SUCCESS') );
     $self->{failure_sound_path} = expand_filename( $config->param('FAILURE') );
+    $self->{running_sound_path} = expand_filename( $config->param('RUNNING') );
     $self;
 }
 
@@ -82,18 +116,19 @@ sub _load_sound_paths {
 sub _play_mp3_in_child {
     my ( $self, $play_command, $mp3_file_path ) = @_;
 
-    my $devnull;
+    my ( $devnull, $pid );
     unless ( open( $devnull, '>', devnull ) ) {
         carp "[WARNING] Couldn't open devnull : $!";
         return;
     }
     eval {
         my $wtr;
-        open3( $wtr, '>&' . fileno($devnull),
+        $pid = open3( $wtr, '>&' . fileno($devnull),
             0, $play_command, $mp3_file_path, );
         close $wtr;
     };
     carp "[WARNING] Couldn't exec $play_command in sound process: $@" if $@;
+    return $pid;
 }
 
 sub _play_mp3 {
@@ -107,7 +142,7 @@ sub _play_mp3 {
         return;
     }
 
-    my $play_command = $self->_detect_sound_play_command;
+    my $play_command = $self->{sound_player};
     unless ($play_command) {
         carp "[WARNING] No sound player is installed."
           . "please install mpg123 or mpg321";
@@ -120,17 +155,22 @@ sub _play_mp3 {
 sub _play_sound {
     my ( $self, $command_retval ) = @_;
 
-    $self->_load_sound_paths;
-    if ( $command_retval == 0 ) {
+    my $pid;
+    if ( !defined($command_retval) ) {
+
+        # running
+        $pid = $self->_play_mp3( $self->{running_sound_path}, 'running' );
+    }
+    elsif ( $command_retval == 0 ) {
 
         # success
-        $self->_play_mp3( $self->{success_sound_path}, 'success' );
+        $pid = $self->_play_mp3( $self->{success_sound_path}, 'success' );
     }
     else {
         # failure
-        $self->_play_mp3( $self->{failure_sound_path}, 'failure' );
+        $pid = $self->_play_mp3( $self->{failure_sound_path}, 'failure' );
     }
-    $self;
+    return $pid;
 }
 
 1;
