@@ -1,5 +1,8 @@
 Revision history for App-WithSound
 
+1.1.0  Wed Mar 06 00:45:10 JST 2013
+        - Add a new function that playbacks sound during executing the command.
+
 1.0.2  Tue Mar 05 02:03:55 JST 2013
         - Corresponded plural audio playing application.
 

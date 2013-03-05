@@ -16,6 +16,7 @@ t/05.play_sound.t
 t/06.run.t
 t/resource/.with-soundrc-to-test
 t/resource/dummy_failure.mp3
+t/resource/dummy_running.mp3
 t/resource/dummy_success.mp3
 with-sound
 xt/00.pod.t

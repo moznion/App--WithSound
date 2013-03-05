@@ -2,7 +2,7 @@ package App::WithSound;
 
 use warnings;
 use strict;
-our $VERSION = '1.0.2';
+our $VERSION = '1.1.0';
 
 use Carp;
 use Config::Simple;
@@ -185,7 +185,7 @@ App::WithSound - Execute commands with sound
 
 =head1 VERSION
 
-This document describes App::WithSound version 1.0.2
+This document describes App::WithSound version 1.1.0
 
 
 =head1 DESCRIPTION
