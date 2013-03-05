@@ -19,6 +19,7 @@ subtest 'Load configurations from the config file.' => sub {
     $app->_load_sound_paths_from_config;
     is $app->{success_sound_path}, 'foo', 'success_sound_path should be "foo"';
     is $app->{failure_sound_path}, 'bar', 'failure_sound_path should be "bar"';
+    is $app->{running_sound_path}, 'baz', 'running_sound_path should be "baz"';
 };
 
 subtest 'The config file does not exist' => sub {
