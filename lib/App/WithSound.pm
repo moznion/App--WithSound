@@ -108,9 +108,11 @@ sub _play_mp3 {
     }
 
     my $play_command = $self->_detect_sound_play_command;
-    carp
-      "[WARNING] No sound player is installed. please install mpg123 or mpg321"
-      unless $play_command;
+    unless ($play_command) {
+        carp "[WARNING] No sound player is installed."
+          . "please install mpg123 or mpg321";
+        return;
+    }
 
     $self->_play_mp3_in_child( $play_command, $mp3_file_path );
 }
