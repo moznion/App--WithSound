@@ -31,7 +31,7 @@ sub run {
         croak 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
     }
 
-    $self->_init;
+    $self->_init($argv[0]);
 
     my $retval = $self->_execute_command(@argv);
     $retval = 1 if $retval > 255;
@@ -41,9 +41,9 @@ sub run {
 }
 
 sub _init {
-    my ($self) = @_;
+    my ($self, $command) = @_;
 
-    $self->_load_sound_paths;
+    $self->_load_sound_paths($command);
     $self->_detect_sound_play_command;
 
     return $self;
@@ -102,7 +102,9 @@ sub _load_sound_paths_from_env {
 }
 
 sub _load_sound_paths_from_config {
-    my ($self) = @_;
+    my ($self, $command) = @_;
+
+    $command ||= '';
 
     # Not exists config file.
     unless ( -f $self->{config_file_path} ) {
@@ -110,16 +112,18 @@ sub _load_sound_paths_from_config {
           "[WARNNING] Please put config file in '$self->{config_file_path}'\n";
         return;
     }
-    my $config = Config::Simple->new( $self->{config_file_path} );
-    $self->{success_sound_path} = expand_filename( $config->param('SUCCESS') );
-    $self->{failure_sound_path} = expand_filename( $config->param('FAILURE') );
-    $self->{running_sound_path} = expand_filename( $config->param('RUNNING') );
+    my %config;
+    Config::Simple->import_from( $self->{config_file_path}, \%config );
+
+    $self->{success_sound_path} = expand_filename( $config{"$command.SUCCESS"} || $config{'default.SUCCESS'} || $config{'SUCCESS'} );
+    $self->{failure_sound_path} = expand_filename( $config{"$command.FAILURE"} || $config{'default.FAILURE'} || $config{'FAILURE'} );
+    $self->{running_sound_path} = expand_filename( $config{"$command.RUNNING"} || $config{'default.RUNNING'} || $config{'RUNNING'} );
     $self;
 }
 
 sub _load_sound_paths {
-    my ($self) = @_;
-    $self->_load_sound_paths_from_config;
+    my ($self, $command) = @_;
+    $self->_load_sound_paths_from_config($command);
 
     # load from env after config so environment variables are prior to config
     $self->_load_sound_paths_from_env;
