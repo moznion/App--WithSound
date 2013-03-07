@@ -91,18 +91,20 @@ sub _load_sound_paths_from_env {
 sub _load_sound_paths_from_config {
     my ($self, $command) = @_;
 
+    $command ||= '';
+
     # Not exists config file.
     unless ( -f $self->{config_file_path} ) {
         carp
           "[WARNNING] Please put config file in '$self->{config_file_path}'\n";
         return;
     }
-    my $config = Config::Simple->new( $self->{config_file_path} );
-    my $config_cmd = $config->param( -block => $command || 'default' );
+    my %config;
+    Config::Simple->import_from( $self->{config_file_path}, \%config );
 
-    $self->{success_sound_path} = expand_filename( $config_cmd->{'SUCCESS'} || $config->param('SUCCESS') );
-    $self->{failure_sound_path} = expand_filename( $config_cmd->{'FAILURE'} || $config->param('FAILURE') );
-    $self->{running_sound_path} = expand_filename( $config_cmd->{'RUNNING'} || $config->param('RUNNING') );
+    $self->{success_sound_path} = expand_filename( $config{"$command.SUCCESS"} || $config{'default.SUCCESS'} || $config{'SUCCESS'} );
+    $self->{failure_sound_path} = expand_filename( $config{"$command.FAILURE"} || $config{'default.FAILURE'} || $config{'FAILURE'} );
+    $self->{running_sound_path} = expand_filename( $config{"$command.RUNNING"} || $config{'default.RUNNING'} || $config{'RUNNING'} );
     $self;
 }
 

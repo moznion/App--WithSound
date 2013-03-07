@@ -8,21 +8,30 @@ use File::Spec::Functions qw/catfile/;
 
 use App::WithSound;
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Test::Warn;
 
 my ( $app, $rc_file );
 
-subtest 'Load configurations from the config file (default).' => sub {
-    $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
+subtest 'Load configurations from the config file (simple syntax).' => sub {
+    $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test-simple' );
     $app = App::WithSound->new( $rc_file, \%ENV );
-    $app->_load_sound_paths_from_config();
+    $app->_load_sound_paths_from_config;
     is $app->{success_sound_path}, 'foo', 'success_sound_path should be "foo"';
     is $app->{failure_sound_path}, 'bar', 'failure_sound_path should be "bar"';
     is $app->{running_sound_path}, 'baz', 'running_sound_path should be "baz"';
 };
 
-subtest 'Load configurations from the config file (command).' => sub {
+subtest 'Load configurations from the config file (ini syntax/default).' => sub {
+    $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
+    $app = App::WithSound->new( $rc_file, \%ENV );
+    $app->_load_sound_paths_from_config;
+    is $app->{success_sound_path}, 'foo', 'success_sound_path should be "foo"';
+    is $app->{failure_sound_path}, 'bar', 'failure_sound_path should be "bar"';
+    is $app->{running_sound_path}, 'baz', 'running_sound_path should be "baz"';
+};
+
+subtest 'Load configurations from the config file (ini syntax/command).' => sub {
     $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
     $app = App::WithSound->new( $rc_file, \%ENV );
     $app->_load_sound_paths_from_config('cmd1');
@@ -31,7 +40,7 @@ subtest 'Load configurations from the config file (command).' => sub {
     is $app->{running_sound_path}, 'cmd1_baz', 'running_sound_path should be "cmd1_baz"';
 };
 
-subtest 'Load configurations from the config file (mix).' => sub {
+subtest 'Load configurations from the config file (ini syntax/mix).' => sub {
     $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
     $app = App::WithSound->new( $rc_file, \%ENV );
     $app->_load_sound_paths_from_config('cmd2');
@@ -40,7 +49,7 @@ subtest 'Load configurations from the config file (mix).' => sub {
     is $app->{running_sound_path}, 'baz', 'running_sound_path should be "baz"';
 };
 
-subtest 'Load configurations from the config file (no default).' => sub {
+subtest 'Load configurations from the config file (ini syntax/no default).' => sub {
     $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test-no-default' );
     $app = App::WithSound->new( $rc_file, \%ENV );
     $app->_load_sound_paths_from_config('cmd');
