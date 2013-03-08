@@ -11,11 +11,11 @@ use App::WithSound;
 use Test::More;
 use Test::MockObject::Extends;
 
-$ENV{WITH_SOUND_SUCCESS} =
+$ENV{PERL_WITH_SOUND_SUCCESS} =
   catfile( $FindBin::Bin, 'resource', 'dummy_success.mp3' );
-$ENV{WITH_SOUND_FAILURE} =
+$ENV{PERL_WITH_SOUND_FAILURE} =
   catfile( $FindBin::Bin, 'resource', 'dummy_failure.mp3' );
-$ENV{WITH_SOUND_RUNNING} =
+$ENV{PERL_WITH_SOUND_RUNNING} =
   catfile( $FindBin::Bin, 'resource', 'dummy_running.mp3' );
 my $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
 

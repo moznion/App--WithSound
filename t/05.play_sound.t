@@ -16,8 +16,8 @@ my $success_sound_path =
 my $failure_sound_path =
   catfile( $FindBin::Bin, 'resource', 'dummy_failure.mp3' );
 
-$ENV{WITH_SOUND_SUCCESS} = $success_sound_path;
-$ENV{WITH_SOUND_FAILURE} = $failure_sound_path;
+$ENV{PERL_WITH_SOUND_SUCCESS} = $success_sound_path;
+$ENV{PERL_WITH_SOUND_FAILURE} = $failure_sound_path;
 
 my $rc_file = catfile( $FindBin::Bin, 'resource', '.with-soundrc-to-test' );
 

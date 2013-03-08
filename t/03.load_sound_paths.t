@@ -22,9 +22,9 @@ subtest 'Environment variables are undefined' => sub {
 };
 
 subtest 'Environment variables are specified' => sub {
-    $ENV{WITH_SOUND_SUCCESS} = 'bazbaz';
-    $ENV{WITH_SOUND_FAILURE} = 'foobar';
-    $ENV{WITH_SOUND_RUNNING} = 'foobarbaz';
+    $ENV{PERL_WITH_SOUND_SUCCESS} = 'bazbaz';
+    $ENV{PERL_WITH_SOUND_FAILURE} = 'foobar';
+    $ENV{PERL_WITH_SOUND_RUNNING} = 'foobarbaz';
     $app = App::WithSound->new( $rc_file, \%ENV );
     $app->_load_sound_paths;
     is $app->{success_sound_path}, 'bazbaz', 'success_sound_path should be "bazbaz"';
