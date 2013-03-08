@@ -17,8 +17,8 @@ subtest 'Playback mp3 rightly' => sub {
     my $expected_success_mp3 = catfile( $FindBin::Bin, 'resource', 'dummy_success.mp3' );
     my $expected_failure_mp3 = catfile( $FindBin::Bin, 'resource', 'dummy_failure.mp3' );
     my $env = +{
-        WITH_SOUND_SUCCESS => $expected_success_mp3,
-        WITH_SOUND_FAILURE => $expected_failure_mp3,
+        PERL_WITH_SOUND_SUCCESS => $expected_success_mp3,
+        PERL_WITH_SOUND_FAILURE => $expected_failure_mp3,
     };
     my $app = App::WithSound->new($rc_file, $env);
 

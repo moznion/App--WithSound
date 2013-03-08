@@ -73,18 +73,31 @@ sub _detect_sound_play_command {
 
 sub _load_sound_paths_from_env {
     my ($self) = @_;
-    if ( $self->{env}->{WITH_SOUND_SUCCESS} ) {
-        $self->{success_sound_path} =
-          expand_filename( $self->{env}->{WITH_SOUND_SUCCESS} );
+
+    my %deprecated_envs = (
+        WITH_SOUND_SUCCESS => "success_sound_path",
+        WITH_SOUND_FAILURE => "failure_sound_path",
+        WITH_SOUND_RUNNING => "running_sound_path",
+    );
+    for my $env_name (keys %deprecated_envs) {
+        if ( my $sound_file_path = $self->{env}->{$env_name} ) {
+            carp
+                qq{[WARNING] "$env_name" is deprecated. Please use "PERL_$env_name"\n};
+            $self->{$deprecated_envs{$env_name}} = expand_filename( $sound_file_path );
+        }
     }
-    if ( $self->{env}->{WITH_SOUND_FAILURE} ) {
-        $self->{failure_sound_path} =
-          expand_filename( $self->{env}->{WITH_SOUND_FAILURE} );
+
+    my %envs = (
+        PERL_WITH_SOUND_SUCCESS => "success_sound_path",
+        PERL_WITH_SOUND_FAILURE => "failure_sound_path",
+        PERL_WITH_SOUND_RUNNING => "running_sound_path",
+    );
+    for my $env_name (keys %envs) {
+        if ( my $sound_file_path = $self->{env}->{$env_name} ) {
+            $self->{$envs{$env_name}} = expand_filename( $sound_file_path );
+        }
     }
-    if ( $self->{env}->{WITH_SOUND_RUNNING} ) {
-        $self->{running_sound_path} =
-          expand_filename( $self->{env}->{WITH_SOUND_RUNNING} );
-    }
+
     $self;
 }
 
