@@ -26,14 +26,16 @@ CONFIGURATION AND ENVIRONMENT
         FAILURE=~/Music/failure.mp3
         RUNNING=~/Music/running.mp3
 
-    If you want to play a different sound for each command, you set using block. Like so:
+    If you want to play the different sound corresponded to discrete command, please use section notation as the following.
 
         [prove]
         SUCCESS=~/Music/success_prove.mp3
         FAILURE=~/Music/failure_prove.mp3
         RUNNING=~/Music/running_prove.mp3
 
-    When you execute 'prove' command, this setting is used.
+    In case of the above example, configured sounds will be played if you execute 'prove'.
+    And if other commands are executed, this application uses default settings.
+    ("Default settings" means settings that is not specified by section)
 
     You also can specify the paths by environment variables $ENV{'WITH_SOUND_SUCCESS'}, $ENV{'WITH_SOUND_FAILURE'}
     and $ENV{'WITH_SOUND_RUNNING'}.
