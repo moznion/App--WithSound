@@ -99,6 +99,8 @@ Shinpei Maruyama C<< <shinpeim[at]gmail.com> >>
 
 Syohei YOSHIDA C<< <syohex[at]gmail.com> >>
 
+papix C<< <mail[at]papix.net> >>
+
 
 =head1 LICENCE AND COPYRIGHT
 
