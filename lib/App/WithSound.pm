@@ -113,7 +113,9 @@ sub _load_sound_paths_from_config {
         return;
     }
     my %config;
-    Config::Simple->import_from( $self->{config_file_path}, \%config );
+    eval { Config::Simple->import_from( $self->{config_file_path}, \%config ) };
+    print STDERR "Configuration file has some errors. Please check your '.withsound-rc' file.\n" .
+    "(Didn't you write plural format in configuration file?)\n" if $@;
 
     $self->{success_sound_path} = expand_filename( $config{"$command.SUCCESS"} || $config{'default.SUCCESS'} || $config{'SUCCESS'} );
     $self->{failure_sound_path} = expand_filename( $config{"$command.FAILURE"} || $config{'default.FAILURE'} || $config{'FAILURE'} );
