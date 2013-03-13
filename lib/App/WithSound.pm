@@ -31,7 +31,7 @@ sub run {
         croak 'Usage: $ with-sound [command] ([argument(s)])' . "\n";
     }
 
-    $self->_init($argv[0]);
+    $self->_init( $argv[0] );
 
     my $retval = $self->_execute_command(@argv);
     $retval = 1 if $retval > 255;
@@ -41,7 +41,7 @@ sub run {
 }
 
 sub _init {
-    my ($self, $command) = @_;
+    my ( $self, $command ) = @_;
 
     $self->_load_sound_paths($command);
     $self->_detect_sound_play_command;
@@ -79,11 +79,12 @@ sub _load_sound_paths_from_env {
         WITH_SOUND_FAILURE => "failure_sound_path",
         WITH_SOUND_RUNNING => "running_sound_path",
     );
-    for my $env_name (keys %deprecated_envs) {
+    for my $env_name ( keys %deprecated_envs ) {
         if ( my $sound_file_path = $self->{env}->{$env_name} ) {
             carp
-                qq{[WARNING] "$env_name" is deprecated. Please use "PERL_$env_name"\n};
-            $self->{$deprecated_envs{$env_name}} = expand_filename( $sound_file_path );
+qq{[WARNING] "$env_name" is deprecated. Please use "PERL_$env_name"\n};
+            $self->{ $deprecated_envs{$env_name} } =
+              expand_filename($sound_file_path);
         }
     }
 
@@ -92,9 +93,9 @@ sub _load_sound_paths_from_env {
         PERL_WITH_SOUND_FAILURE => "failure_sound_path",
         PERL_WITH_SOUND_RUNNING => "running_sound_path",
     );
-    for my $env_name (keys %envs) {
+    for my $env_name ( keys %envs ) {
         if ( my $sound_file_path = $self->{env}->{$env_name} ) {
-            $self->{$envs{$env_name}} = expand_filename( $sound_file_path );
+            $self->{ $envs{$env_name} } = expand_filename($sound_file_path);
         }
     }
 
@@ -102,7 +103,7 @@ sub _load_sound_paths_from_env {
 }
 
 sub _load_sound_paths_from_config {
-    my ($self, $command) = @_;
+    my ( $self, $command ) = @_;
 
     $command ||= '';
 
@@ -114,17 +115,28 @@ sub _load_sound_paths_from_config {
     }
     my %config;
     eval { Config::Simple->import_from( $self->{config_file_path}, \%config ) };
-    print STDERR "Configuration file has some errors. Please check your '.withsound-rc' file.\n" .
-    "(Didn't you write plural format in configuration file?)\n" if $@;
+    print STDERR "Configuration file has some errors."
+      . "Please check your '.withsound-rc' file.\n"
+      . "(Didn't you write plural format in configuration file?)\n"
+      if $@;
 
-    $self->{success_sound_path} = expand_filename( $config{"$command.SUCCESS"} || $config{'default.SUCCESS'} || $config{'SUCCESS'} );
-    $self->{failure_sound_path} = expand_filename( $config{"$command.FAILURE"} || $config{'default.FAILURE'} || $config{'FAILURE'} );
-    $self->{running_sound_path} = expand_filename( $config{"$command.RUNNING"} || $config{'default.RUNNING'} || $config{'RUNNING'} );
+    $self->{success_sound_path} =
+      expand_filename( $config{"$command.SUCCESS"}
+          || $config{'default.SUCCESS'}
+          || $config{'SUCCESS'} );
+    $self->{failure_sound_path} =
+      expand_filename( $config{"$command.FAILURE"}
+          || $config{'default.FAILURE'}
+          || $config{'FAILURE'} );
+    $self->{running_sound_path} =
+      expand_filename( $config{"$command.RUNNING"}
+          || $config{'default.RUNNING'}
+          || $config{'RUNNING'} );
     $self;
 }
 
 sub _load_sound_paths {
-    my ($self, $command) = @_;
+    my ( $self, $command ) = @_;
     $self->_load_sound_paths_from_config($command);
 
     # load from env after config so environment variables are prior to config
