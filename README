@@ -22,9 +22,18 @@ CONFIGURATION AND ENVIRONMENT
     directory. This resource file specifies the path to sound files. Like
     so:
 
-        SUCCESS: ~/Music/success.mp3
-        FAILURE: ~/Music/failure.mp3
-        RUNNING: ~/Music/running.mp3
+        SUCCESS=~/Music/success.mp3
+        FAILURE=~/Music/failure.mp3
+        RUNNING=~/Music/running.mp3
+
+    If you want to play a different sound for each command, you set using block. Like so:
+
+        [prove]
+        SUCCESS=~/Music/success_prove.mp3
+        FAILURE=~/Music/failure_prove.mp3
+        RUNNING=~/Music/running_prove.mp3
+
+    When you execute 'prove' command, this setting is used.
 
     You also can specify the paths by environment variables $ENV{'WITH_SOUND_SUCCESS'}, $ENV{'WITH_SOUND_FAILURE'}
     and $ENV{'WITH_SOUND_RUNNING'}.
