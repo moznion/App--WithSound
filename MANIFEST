@@ -6,7 +6,7 @@ MANIFEST			This list of files
 META.json
 META.yml
 README
-samples/.with-soundrc
+samples/sample_.with-soundrc
 t/00.load.t
 t/01.load_sound_paths_from_env.t
 t/02.load_sound_paths_from_config.t
@@ -15,6 +15,8 @@ t/04.play_mp3_in_child.t
 t/05.play_sound.t
 t/06.run.t
 t/resource/.with-soundrc-to-test
+t/resource/.with-soundrc-to-test-no-default
+t/resource/.with-soundrc-to-test-simple
 t/resource/dummy_failure.mp3
 t/resource/dummy_running.mp3
 t/resource/dummy_success.mp3

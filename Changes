@@ -1,5 +1,9 @@
 Revision history for App-WithSound
 
+1.2.0  Thu Mar 14 00:42:43 JST 2013
+        - Changed using environment variables name.
+        - Added a function to play the different sound corresponded to discrete command.
+
 1.1.0  Wed Mar 06 00:45:10 JST 2013
         - Add a new function that playbacks sound during executing the command.
 
