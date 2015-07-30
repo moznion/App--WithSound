@@ -32,8 +32,8 @@ subtest 'Deprecated environment variables are specified' => sub {
     warnings_like { $app->_load_sound_paths_from_env }
         [
             qr{\[WARNING\] "WITH_SOUND_FAILURE" is deprecated. Please use "PERL_WITH_SOUND_FAILURE"},
-            qr{\[WARNING\] "WITH_SOUND_SUCCESS" is deprecated. Please use "PERL_WITH_SOUND_SUCCESS"},
             qr{\[WARNING\] "WITH_SOUND_RUNNING" is deprecated. Please use "PERL_WITH_SOUND_RUNNING"},
+            qr{\[WARNING\] "WITH_SOUND_SUCCESS" is deprecated. Please use "PERL_WITH_SOUND_SUCCESS"},
         ];
 
     is $app->{success_sound_path}, 'foo', 'success_sound_path should be "foo"';

@@ -79,7 +79,7 @@ sub _load_sound_paths_from_env {
         WITH_SOUND_FAILURE => "failure_sound_path",
         WITH_SOUND_RUNNING => "running_sound_path",
     );
-    for my $env_name ( keys %deprecated_envs ) {
+    for my $env_name ( sort keys %deprecated_envs ) {
         if ( my $sound_file_path = $self->{env}->{$env_name} ) {
             carp
 qq{[WARNING] "$env_name" is deprecated. Please use "PERL_$env_name"\n};
@@ -93,7 +93,7 @@ qq{[WARNING] "$env_name" is deprecated. Please use "PERL_$env_name"\n};
         PERL_WITH_SOUND_FAILURE => "failure_sound_path",
         PERL_WITH_SOUND_RUNNING => "running_sound_path",
     );
-    for my $env_name ( keys %envs ) {
+    for my $env_name ( sort keys %envs ) {
         if ( my $sound_file_path = $self->{env}->{$env_name} ) {
             $self->{ $envs{$env_name} } = expand_filename($sound_file_path);
         }
