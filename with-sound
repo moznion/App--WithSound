@@ -12,6 +12,8 @@ exit($retval);
 
 __END__
 
+=for stopwords papix
+
 =encoding utf8
 
 =head1 NAME
@@ -21,7 +23,7 @@ with-sound - Command executor with sound
 
 =head1 VERSION
 
-This document describes with-sound version 1.2.0
+This document describes with-sound version 1.2.1
 
 
 =head1 SYNOPSIS
@@ -116,7 +118,7 @@ Syohei YOSHIDA C<< <syohex[at]gmail.com> >>
 papix C<< <mail[at]papix.net> >>
 
 
-=head1 LICENCE AND COPYRIGHT
+=head1 LICENSE AND COPYRIGHT
 
 Copyright (c) 2013, moznion C<< <moznion@gmail.com> >>. All rights reserved.
 
@@ -138,7 +140,7 @@ NECESSARY SERVICING, REPAIR, OR CORRECTION.
 
 IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
 WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
-REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENSE, BE
 LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
 OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
 THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING

@@ -2,7 +2,7 @@ package App::WithSound;
 
 use warnings;
 use strict;
-our $VERSION = '1.2.0';
+our $VERSION = '1.2.1';
 
 use Carp;
 use Config::Simple;
@@ -216,7 +216,7 @@ App::WithSound - Execute commands with sound
 
 =head1 VERSION
 
-This document describes App::WithSound version 1.2.0
+This document describes App::WithSound version 1.2.1
 
 
 =head1 DESCRIPTION
@@ -249,7 +249,7 @@ Shinpei Maruyama C<< shinpeim[at]gmail.com> >>
 Syohei YOSHIDA C<< <syohex[at]gmail.com> >>
 
 
-=head1 LICENCE AND COPYRIGHT
+=head1 LICENSE AND COPYRIGHT
 
 Copyright (c) 2013, moznion C<< <moznion@gmail.com> >>. All rights reserved.
 
@@ -271,7 +271,7 @@ NECESSARY SERVICING, REPAIR, OR CORRECTION.
 
 IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
 WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
-REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENSE, BE
 LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
 OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
 THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
