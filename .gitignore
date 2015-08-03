@@ -17,3 +17,11 @@ pm_to_blib
 App-WithSound-*
 App-WithSound-*.tar.gz
 *.bak
+/App-WithSound-*
+/.build
+/_build_params
+/Build
+/Build.bat
+!Build/
+!META.json
+!LICENSE
